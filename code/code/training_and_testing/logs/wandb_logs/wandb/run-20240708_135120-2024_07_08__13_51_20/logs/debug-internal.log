@@ -1,0 +1,146 @@
+2024-07-08 13:51:20,571 INFO    StreamThr :2917914 [internal.py:wandb_internal():85] W&B internal server running at pid: 2917914, started at: 2024-07-08 13:51:20.569249
+2024-07-08 13:51:20,573 DEBUG   HandlerThread:2917914 [handler.py:handle_request():158] handle_request: status
+2024-07-08 13:51:20,577 INFO    WriterThread:2917914 [datastore.py:open_for_write():87] open: /home/zil57ceb/Seafile/Mi Biblioteca/CAS Seminar Database/code/code/training_and_testing/logs/wandb_logs/wandb/run-20240708_135120-2024_07_08__13_51_20/run-2024_07_08__13_51_20.wandb
+2024-07-08 13:51:20,581 DEBUG   SenderThread:2917914 [sender.py:send():379] send: header
+2024-07-08 13:51:20,581 DEBUG   SenderThread:2917914 [sender.py:send():379] send: run
+2024-07-08 13:51:20,588 INFO    SenderThread:2917914 [sender.py:_setup_resume():749] checking resume status for None/SS2024_motion_prediction/2024_07_08__13_51_20
+2024-07-08 13:51:21,225 INFO    SenderThread:2917914 [dir_watcher.py:__init__():211] watching files in: /home/zil57ceb/Seafile/Mi Biblioteca/CAS Seminar Database/code/code/training_and_testing/logs/wandb_logs/wandb/run-20240708_135120-2024_07_08__13_51_20/files
+2024-07-08 13:51:21,226 INFO    SenderThread:2917914 [sender.py:_start_run_threads():1188] run started: 2024_07_08__13_51_20 with start time 1720439480.570953
+2024-07-08 13:51:21,258 DEBUG   HandlerThread:2917914 [handler.py:handle_request():158] handle_request: check_version
+2024-07-08 13:51:21,259 DEBUG   SenderThread:2917914 [sender.py:send_request():406] send_request: check_version
+2024-07-08 13:51:21,356 DEBUG   HandlerThread:2917914 [handler.py:handle_request():158] handle_request: run_start
+2024-07-08 13:51:21,385 DEBUG   HandlerThread:2917914 [system_info.py:__init__():26] System info init
+2024-07-08 13:51:21,385 DEBUG   HandlerThread:2917914 [system_info.py:__init__():41] System info init done
+2024-07-08 13:51:21,385 INFO    HandlerThread:2917914 [system_monitor.py:start():194] Starting system monitor
+2024-07-08 13:51:21,386 INFO    SystemMonitor:2917914 [system_monitor.py:_start():158] Starting system asset monitoring threads
+2024-07-08 13:51:21,387 INFO    HandlerThread:2917914 [system_monitor.py:probe():214] Collecting system info
+2024-07-08 13:51:21,387 INFO    SystemMonitor:2917914 [interfaces.py:start():188] Started cpu monitoring
+2024-07-08 13:51:21,388 INFO    SystemMonitor:2917914 [interfaces.py:start():188] Started disk monitoring
+2024-07-08 13:51:21,390 INFO    SystemMonitor:2917914 [interfaces.py:start():188] Started gpu monitoring
+2024-07-08 13:51:21,392 INFO    SystemMonitor:2917914 [interfaces.py:start():188] Started memory monitoring
+2024-07-08 13:51:21,394 INFO    SystemMonitor:2917914 [interfaces.py:start():188] Started network monitoring
+2024-07-08 13:51:21,438 DEBUG   HandlerThread:2917914 [system_info.py:probe():152] Probing system
+2024-07-08 13:51:21,441 DEBUG   HandlerThread:2917914 [gitlib.py:_init_repo():56] git repository is invalid
+2024-07-08 13:51:21,441 DEBUG   HandlerThread:2917914 [system_info.py:probe():200] Probing system done
+2024-07-08 13:51:21,441 DEBUG   HandlerThread:2917914 [system_monitor.py:probe():223] {'os': 'Linux-4.18.0-553.5.1.el8_10.x86_64-x86_64-with-glibc2.28', 'python': '3.10.14', 'heartbeatAt': '2024-07-08T11:51:21.438584', 'startedAt': '2024-07-08T11:51:20.546070', 'docker': None, 'cuda': None, 'args': (), 'state': 'running', 'program': '/home/zil57ceb/Seafile/Mi Biblioteca/CAS Seminar Database/code/code/training_and_testing/main.py', 'codePathLocal': 'main.py', 'codePath': 'main.py', 'host': 'dcv1', 'username': 'zil57ceb', 'executable': '/home/zil57ceb/.conda/envs/code/bin/python', 'cpu_count': 16, 'cpu_count_logical': 32, 'cpu_freq': {'current': 3460.22390625, 'min': 1000.0, 'max': 3500.0}, 'cpu_freq_per_core': [{'current': 3500.0, 'min': 1000.0, 'max': 3500.0}, {'current': 3500.0, 'min': 1000.0, 'max': 3500.0}, {'current': 3500.0, 'min': 1000.0, 'max': 3500.0}, {'current': 3500.0, 'min': 1000.0, 'max': 3500.0}, {'current': 3500.0, 'min': 1000.0, 'max': 3500.0}, {'current': 3500.0, 'min': 1000.0, 'max': 3500.0}, {'current': 3500.0, 'min': 1000.0, 'max': 3500.0}, {'current': 3500.0, 'min': 1000.0, 'max': 3500.0}, {'current': 3500.0, 'min': 1000.0, 'max': 3500.0}, {'current': 3500.0, 'min': 1000.0, 'max': 3500.0}, {'current': 3500.0, 'min': 1000.0, 'max': 3500.0}, {'current': 3500.0, 'min': 1000.0, 'max': 3500.0}, {'current': 3500.0, 'min': 1000.0, 'max': 3500.0}, {'current': 3500.0, 'min': 1000.0, 'max': 3500.0}, {'current': 3500.0, 'min': 1000.0, 'max': 3500.0}, {'current': 3500.0, 'min': 1000.0, 'max': 3500.0}, {'current': 3500.0, 'min': 1000.0, 'max': 3500.0}, {'current': 3500.0, 'min': 1000.0, 'max': 3500.0}, {'current': 3500.0, 'min': 1000.0, 'max': 3500.0}, {'current': 3500.0, 'min': 1000.0, 'max': 3500.0}, {'current': 3500.0, 'min': 1000.0, 'max': 3500.0}, {'current': 3500.0, 'min': 1000.0, 'max': 3500.0}, {'current': 3500.0, 'min': 1000.0, 'max': 3500.0}, {'current': 3500.0, 'min': 1000.0, 'max': 3500.0}, {'current': 3500.0, 'min': 1000.0, 'max': 3500.0}, {'current': 3500.0, 'min': 1000.0, 'max': 3500.0}, {'current': 3500.0, 'min': 1000.0, 'max': 3500.0}, {'current': 3500.0, 'min': 1000.0, 'max': 3500.0}, {'current': 3500.0, 'min': 1000.0, 'max': 3500.0}, {'current': 3500.0, 'min': 1000.0, 'max': 3500.0}, {'current': 3108.589, 'min': 1000.0, 'max': 3500.0}, {'current': 3500.0, 'min': 1000.0, 'max': 3500.0}], 'disk': {'/': {'total': 59.970703125, 'used': 31.44902801513672}}, 'gpu': 'Quadro RTX 8000', 'gpu_count': 1, 'gpu_devices': [{'name': 'Quadro RTX 8000', 'memory_total': 51539607552}], 'memory': {'total': 187.5656280517578}}
+2024-07-08 13:51:21,441 INFO    HandlerThread:2917914 [system_monitor.py:probe():224] Finished collecting system info
+2024-07-08 13:51:21,441 INFO    HandlerThread:2917914 [system_monitor.py:probe():227] Publishing system info
+2024-07-08 13:51:21,441 DEBUG   HandlerThread:2917914 [system_info.py:_save_conda():209] Saving list of conda packages installed into the current environment
+2024-07-08 13:51:21,444 ERROR   HandlerThread:2917914 [system_info.py:_save_conda():223] Error saving conda packages: [Errno 2] No such file or directory: 'conda'
+Traceback (most recent call last):
+  File "/home/zil57ceb/.conda/envs/code/lib/python3.10/site-packages/wandb/sdk/internal/system/system_info.py", line 216, in _save_conda
+    subprocess.call(
+  File "/home/zil57ceb/.conda/envs/code/lib/python3.10/subprocess.py", line 345, in call
+    with Popen(*popenargs, **kwargs) as p:
+  File "/home/zil57ceb/.conda/envs/code/lib/python3.10/subprocess.py", line 971, in __init__
+    self._execute_child(args, executable, preexec_fn, close_fds,
+  File "/home/zil57ceb/.conda/envs/code/lib/python3.10/subprocess.py", line 1863, in _execute_child
+    raise child_exception_type(errno_num, err_msg, err_filename)
+FileNotFoundError: [Errno 2] No such file or directory: 'conda'
+2024-07-08 13:51:21,447 DEBUG   HandlerThread:2917914 [system_info.py:_save_conda():224] Saving conda packages done
+2024-07-08 13:51:21,464 INFO    HandlerThread:2917914 [system_monitor.py:probe():229] Finished publishing system info
+2024-07-08 13:51:21,483 DEBUG   SenderThread:2917914 [sender.py:send():379] send: files
+2024-07-08 13:51:21,483 INFO    SenderThread:2917914 [sender.py:_save_file():1454] saving file wandb-metadata.json with policy now
+2024-07-08 13:51:22,131 INFO    wandb-upload_0:2917914 [upload_job.py:push():130] Uploaded file /tmp/tmpby01dsirwandb/a7cepdei-wandb-metadata.json
+2024-07-08 13:51:22,173 DEBUG   HandlerThread:2917914 [handler.py:handle_request():158] handle_request: python_packages
+2024-07-08 13:51:22,174 DEBUG   SenderThread:2917914 [sender.py:send_request():406] send_request: python_packages
+2024-07-08 13:51:22,175 DEBUG   HandlerThread:2917914 [handler.py:handle_request():158] handle_request: stop_status
+2024-07-08 13:51:22,177 DEBUG   SenderThread:2917914 [sender.py:send_request():406] send_request: stop_status
+2024-07-08 13:51:22,182 DEBUG   HandlerThread:2917914 [handler.py:handle_request():158] handle_request: internal_messages
+2024-07-08 13:51:22,236 INFO    Thread-16 :2917914 [dir_watcher.py:_on_file_created():271] file/dir created: /home/zil57ceb/Seafile/Mi Biblioteca/CAS Seminar Database/code/code/training_and_testing/logs/wandb_logs/wandb/run-20240708_135120-2024_07_08__13_51_20/files/wandb-metadata.json
+2024-07-08 13:51:22,236 INFO    Thread-16 :2917914 [dir_watcher.py:_on_file_created():271] file/dir created: /home/zil57ceb/Seafile/Mi Biblioteca/CAS Seminar Database/code/code/training_and_testing/logs/wandb_logs/wandb/run-20240708_135120-2024_07_08__13_51_20/files/conda-environment.yaml
+2024-07-08 13:51:22,236 INFO    Thread-16 :2917914 [dir_watcher.py:_on_file_created():271] file/dir created: /home/zil57ceb/Seafile/Mi Biblioteca/CAS Seminar Database/code/code/training_and_testing/logs/wandb_logs/wandb/run-20240708_135120-2024_07_08__13_51_20/files/requirements.txt
+2024-07-08 13:51:22,376 DEBUG   SenderThread:2917914 [sender.py:send():379] send: telemetry
+2024-07-08 13:51:22,376 DEBUG   SenderThread:2917914 [sender.py:send():379] send: telemetry
+2024-07-08 13:51:22,376 DEBUG   SenderThread:2917914 [sender.py:send():379] send: metric
+2024-07-08 13:51:22,376 DEBUG   SenderThread:2917914 [sender.py:send():379] send: telemetry
+2024-07-08 13:51:22,377 DEBUG   SenderThread:2917914 [sender.py:send():379] send: metric
+2024-07-08 13:51:22,377 WARNING SenderThread:2917914 [sender.py:send_metric():1405] Seen metric with glob (shouldn't happen)
+2024-07-08 13:51:22,377 DEBUG   SenderThread:2917914 [sender.py:send():379] send: config
+2024-07-08 13:51:23,176 DEBUG   HandlerThread:2917914 [handler.py:handle_request():158] handle_request: internal_messages
+2024-07-08 13:51:23,229 INFO    Thread-16 :2917914 [dir_watcher.py:_on_file_created():271] file/dir created: /home/zil57ceb/Seafile/Mi Biblioteca/CAS Seminar Database/code/code/training_and_testing/logs/wandb_logs/wandb/run-20240708_135120-2024_07_08__13_51_20/files/output.log
+2024-07-08 13:51:24,176 DEBUG   HandlerThread:2917914 [handler.py:handle_request():158] handle_request: internal_messages
+2024-07-08 13:51:25,177 DEBUG   HandlerThread:2917914 [handler.py:handle_request():158] handle_request: internal_messages
+2024-07-08 13:51:25,231 INFO    Thread-16 :2917914 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/zil57ceb/Seafile/Mi Biblioteca/CAS Seminar Database/code/code/training_and_testing/logs/wandb_logs/wandb/run-20240708_135120-2024_07_08__13_51_20/files/output.log
+2024-07-08 13:51:25,940 DEBUG   HandlerThread:2917914 [handler.py:handle_request():158] handle_request: status_report
+2024-07-08 13:51:26,177 DEBUG   HandlerThread:2917914 [handler.py:handle_request():158] handle_request: internal_messages
+2024-07-08 13:51:27,178 DEBUG   HandlerThread:2917914 [handler.py:handle_request():158] handle_request: internal_messages
+2024-07-08 13:51:27,222 DEBUG   SenderThread:2917914 [sender.py:send():379] send: config
+2024-07-08 13:51:28,178 DEBUG   HandlerThread:2917914 [handler.py:handle_request():158] handle_request: internal_messages
+2024-07-08 13:51:29,179 DEBUG   HandlerThread:2917914 [handler.py:handle_request():158] handle_request: internal_messages
+2024-07-08 13:51:29,238 INFO    Thread-16 :2917914 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/zil57ceb/Seafile/Mi Biblioteca/CAS Seminar Database/code/code/training_and_testing/logs/wandb_logs/wandb/run-20240708_135120-2024_07_08__13_51_20/files/output.log
+2024-07-08 13:51:30,179 DEBUG   HandlerThread:2917914 [handler.py:handle_request():158] handle_request: internal_messages
+2024-07-08 13:51:31,179 DEBUG   HandlerThread:2917914 [handler.py:handle_request():158] handle_request: internal_messages
+2024-07-08 13:51:31,241 INFO    Thread-16 :2917914 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/zil57ceb/Seafile/Mi Biblioteca/CAS Seminar Database/code/code/training_and_testing/logs/wandb_logs/wandb/run-20240708_135120-2024_07_08__13_51_20/files/output.log
+2024-07-08 13:51:31,579 DEBUG   HandlerThread:2917914 [handler.py:handle_request():158] handle_request: status_report
+2024-07-08 13:51:32,179 DEBUG   HandlerThread:2917914 [handler.py:handle_request():158] handle_request: internal_messages
+2024-07-08 13:51:33,179 DEBUG   HandlerThread:2917914 [handler.py:handle_request():158] handle_request: internal_messages
+2024-07-08 13:51:34,179 DEBUG   HandlerThread:2917914 [handler.py:handle_request():158] handle_request: internal_messages
+2024-07-08 13:51:35,180 DEBUG   HandlerThread:2917914 [handler.py:handle_request():158] handle_request: internal_messages
+2024-07-08 13:51:36,180 DEBUG   HandlerThread:2917914 [handler.py:handle_request():158] handle_request: internal_messages
+2024-07-08 13:51:37,175 DEBUG   HandlerThread:2917914 [handler.py:handle_request():158] handle_request: stop_status
+2024-07-08 13:51:37,176 DEBUG   SenderThread:2917914 [sender.py:send_request():406] send_request: stop_status
+2024-07-08 13:51:37,216 DEBUG   HandlerThread:2917914 [handler.py:handle_request():158] handle_request: internal_messages
+2024-07-08 13:51:37,390 DEBUG   HandlerThread:2917914 [handler.py:handle_request():158] handle_request: status_report
+2024-07-08 13:51:38,180 DEBUG   HandlerThread:2917914 [handler.py:handle_request():158] handle_request: internal_messages
+2024-07-08 13:51:39,180 DEBUG   HandlerThread:2917914 [handler.py:handle_request():158] handle_request: internal_messages
+2024-07-08 13:51:40,181 DEBUG   HandlerThread:2917914 [handler.py:handle_request():158] handle_request: internal_messages
+2024-07-08 13:51:41,181 DEBUG   HandlerThread:2917914 [handler.py:handle_request():158] handle_request: internal_messages
+2024-07-08 13:51:42,181 DEBUG   HandlerThread:2917914 [handler.py:handle_request():158] handle_request: internal_messages
+2024-07-08 13:51:43,177 DEBUG   HandlerThread:2917914 [handler.py:handle_request():158] handle_request: status_report
+2024-07-08 13:51:43,181 DEBUG   HandlerThread:2917914 [handler.py:handle_request():158] handle_request: internal_messages
+2024-07-08 13:51:44,181 DEBUG   HandlerThread:2917914 [handler.py:handle_request():158] handle_request: internal_messages
+2024-07-08 13:51:45,181 DEBUG   HandlerThread:2917914 [handler.py:handle_request():158] handle_request: internal_messages
+2024-07-08 13:51:46,182 DEBUG   HandlerThread:2917914 [handler.py:handle_request():158] handle_request: internal_messages
+2024-07-08 13:51:47,182 DEBUG   HandlerThread:2917914 [handler.py:handle_request():158] handle_request: internal_messages
+2024-07-08 13:51:48,182 DEBUG   HandlerThread:2917914 [handler.py:handle_request():158] handle_request: internal_messages
+2024-07-08 13:51:49,177 DEBUG   HandlerThread:2917914 [handler.py:handle_request():158] handle_request: status_report
+2024-07-08 13:51:49,182 DEBUG   HandlerThread:2917914 [handler.py:handle_request():158] handle_request: internal_messages
+2024-07-08 13:51:50,182 DEBUG   HandlerThread:2917914 [handler.py:handle_request():158] handle_request: internal_messages
+2024-07-08 13:51:51,182 DEBUG   HandlerThread:2917914 [handler.py:handle_request():158] handle_request: internal_messages
+2024-07-08 13:51:52,175 DEBUG   HandlerThread:2917914 [handler.py:handle_request():158] handle_request: stop_status
+2024-07-08 13:51:52,176 DEBUG   SenderThread:2917914 [sender.py:send_request():406] send_request: stop_status
+2024-07-08 13:51:52,216 DEBUG   HandlerThread:2917914 [handler.py:handle_request():158] handle_request: internal_messages
+2024-07-08 13:51:53,182 DEBUG   HandlerThread:2917914 [handler.py:handle_request():158] handle_request: internal_messages
+2024-07-08 13:51:54,183 DEBUG   HandlerThread:2917914 [handler.py:handle_request():158] handle_request: internal_messages
+2024-07-08 13:51:54,324 DEBUG   HandlerThread:2917914 [handler.py:handle_request():158] handle_request: status_report
+2024-07-08 13:51:55,183 DEBUG   HandlerThread:2917914 [handler.py:handle_request():158] handle_request: internal_messages
+2024-07-08 13:51:55,273 INFO    Thread-16 :2917914 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/zil57ceb/Seafile/Mi Biblioteca/CAS Seminar Database/code/code/training_and_testing/logs/wandb_logs/wandb/run-20240708_135120-2024_07_08__13_51_20/files/config.yaml
+2024-07-08 13:51:56,183 DEBUG   HandlerThread:2917914 [handler.py:handle_request():158] handle_request: internal_messages
+2024-07-08 13:51:57,183 DEBUG   HandlerThread:2917914 [handler.py:handle_request():158] handle_request: internal_messages
+2024-07-08 13:51:58,183 DEBUG   HandlerThread:2917914 [handler.py:handle_request():158] handle_request: internal_messages
+2024-07-08 13:51:59,183 DEBUG   HandlerThread:2917914 [handler.py:handle_request():158] handle_request: internal_messages
+2024-07-08 13:52:00,178 DEBUG   HandlerThread:2917914 [handler.py:handle_request():158] handle_request: status_report
+2024-07-08 13:52:00,184 DEBUG   HandlerThread:2917914 [handler.py:handle_request():158] handle_request: internal_messages
+2024-07-08 13:52:01,184 DEBUG   HandlerThread:2917914 [handler.py:handle_request():158] handle_request: internal_messages
+2024-07-08 13:52:02,184 DEBUG   HandlerThread:2917914 [handler.py:handle_request():158] handle_request: internal_messages
+2024-07-08 13:52:03,184 DEBUG   HandlerThread:2917914 [handler.py:handle_request():158] handle_request: internal_messages
+2024-07-08 13:52:04,185 DEBUG   HandlerThread:2917914 [handler.py:handle_request():158] handle_request: internal_messages
+2024-07-08 13:52:05,178 DEBUG   HandlerThread:2917914 [handler.py:handle_request():158] handle_request: status_report
+2024-07-08 13:52:05,185 DEBUG   HandlerThread:2917914 [handler.py:handle_request():158] handle_request: internal_messages
+2024-07-08 13:52:06,185 DEBUG   HandlerThread:2917914 [handler.py:handle_request():158] handle_request: internal_messages
+2024-07-08 13:52:07,175 DEBUG   HandlerThread:2917914 [handler.py:handle_request():158] handle_request: stop_status
+2024-07-08 13:52:07,176 DEBUG   SenderThread:2917914 [sender.py:send_request():406] send_request: stop_status
+2024-07-08 13:52:07,217 DEBUG   HandlerThread:2917914 [handler.py:handle_request():158] handle_request: internal_messages
+2024-07-08 13:52:08,185 DEBUG   HandlerThread:2917914 [handler.py:handle_request():158] handle_request: internal_messages
+2024-07-08 13:52:09,185 DEBUG   HandlerThread:2917914 [handler.py:handle_request():158] handle_request: internal_messages
+2024-07-08 13:52:10,186 DEBUG   HandlerThread:2917914 [handler.py:handle_request():158] handle_request: internal_messages
+2024-07-08 13:52:10,412 DEBUG   HandlerThread:2917914 [handler.py:handle_request():158] handle_request: status_report
+2024-07-08 13:52:11,186 DEBUG   HandlerThread:2917914 [handler.py:handle_request():158] handle_request: internal_messages
+2024-07-08 13:52:12,186 DEBUG   HandlerThread:2917914 [handler.py:handle_request():158] handle_request: internal_messages
+2024-07-08 13:52:13,186 DEBUG   HandlerThread:2917914 [handler.py:handle_request():158] handle_request: internal_messages
+2024-07-08 13:52:14,186 DEBUG   HandlerThread:2917914 [handler.py:handle_request():158] handle_request: internal_messages
+2024-07-08 13:52:15,186 DEBUG   HandlerThread:2917914 [handler.py:handle_request():158] handle_request: internal_messages
+2024-07-08 13:52:16,178 DEBUG   HandlerThread:2917914 [handler.py:handle_request():158] handle_request: status_report
+2024-07-08 13:52:16,186 DEBUG   HandlerThread:2917914 [handler.py:handle_request():158] handle_request: internal_messages
+2024-07-08 13:52:17,186 DEBUG   HandlerThread:2917914 [handler.py:handle_request():158] handle_request: internal_messages
+2024-07-08 13:52:18,187 DEBUG   HandlerThread:2917914 [handler.py:handle_request():158] handle_request: internal_messages
+2024-07-08 13:52:19,187 DEBUG   HandlerThread:2917914 [handler.py:handle_request():158] handle_request: internal_messages
+2024-07-08 13:52:20,187 DEBUG   HandlerThread:2917914 [handler.py:handle_request():158] handle_request: internal_messages
+2024-07-08 13:52:21,179 DEBUG   HandlerThread:2917914 [handler.py:handle_request():158] handle_request: status_report
+2024-07-08 13:52:21,187 DEBUG   HandlerThread:2917914 [handler.py:handle_request():158] handle_request: internal_messages
+2024-07-08 13:52:21,394 DEBUG   SystemMonitor:2917914 [system_monitor.py:_start():172] Starting system metrics aggregation loop
+2024-07-08 13:52:21,400 DEBUG   SenderThread:2917914 [sender.py:send():379] send: stats
+2024-07-08 13:52:22,175 DEBUG   HandlerThread:2917914 [handler.py:handle_request():158] handle_request: stop_status
+2024-07-08 13:52:22,176 DEBUG   SenderThread:2917914 [sender.py:send_request():406] send_request: stop_status
+2024-07-08 13:52:22,216 DEBUG   HandlerThread:2917914 [handler.py:handle_request():158] handle_request: internal_messages

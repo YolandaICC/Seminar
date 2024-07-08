@@ -1,0 +1,202 @@
+{
+    "os": "Linux-4.18.0-553.5.1.el8_10.x86_64-x86_64-with-glibc2.28",
+    "python": "3.10.14",
+    "heartbeatAt": "2024-07-08T11:55:48.118799",
+    "startedAt": "2024-07-08T11:55:47.240917",
+    "docker": null,
+    "cuda": null,
+    "args": [],
+    "state": "running",
+    "program": "/home/zil57ceb/Seafile/Mi Biblioteca/CAS Seminar Database/code/code/training_and_testing/main.py",
+    "codePathLocal": "main.py",
+    "codePath": "main.py",
+    "host": "dcv1",
+    "username": "zil57ceb",
+    "executable": "/home/zil57ceb/.conda/envs/code/bin/python",
+    "cpu_count": 16,
+    "cpu_count_logical": 32,
+    "cpu_freq": {
+        "current": 3378.88184375,
+        "min": 1000.0,
+        "max": 3500.0
+    },
+    "cpu_freq_per_core": [
+        {
+            "current": 2817.221,
+            "min": 1000.0,
+            "max": 3500.0
+        },
+        {
+            "current": 3500.0,
+            "min": 1000.0,
+            "max": 3500.0
+        },
+        {
+            "current": 3005.023,
+            "min": 1000.0,
+            "max": 3500.0
+        },
+        {
+            "current": 3500.0,
+            "min": 1000.0,
+            "max": 3500.0
+        },
+        {
+            "current": 3500.0,
+            "min": 1000.0,
+            "max": 3500.0
+        },
+        {
+            "current": 3500.0,
+            "min": 1000.0,
+            "max": 3500.0
+        },
+        {
+            "current": 3500.0,
+            "min": 1000.0,
+            "max": 3500.0
+        },
+        {
+            "current": 2649.834,
+            "min": 1000.0,
+            "max": 3500.0
+        },
+        {
+            "current": 3500.0,
+            "min": 1000.0,
+            "max": 3500.0
+        },
+        {
+            "current": 3500.0,
+            "min": 1000.0,
+            "max": 3500.0
+        },
+        {
+            "current": 3500.0,
+            "min": 1000.0,
+            "max": 3500.0
+        },
+        {
+            "current": 3500.0,
+            "min": 1000.0,
+            "max": 3500.0
+        },
+        {
+            "current": 3500.0,
+            "min": 1000.0,
+            "max": 3500.0
+        },
+        {
+            "current": 3500.0,
+            "min": 1000.0,
+            "max": 3500.0
+        },
+        {
+            "current": 3500.0,
+            "min": 1000.0,
+            "max": 3500.0
+        },
+        {
+            "current": 3500.0,
+            "min": 1000.0,
+            "max": 3500.0
+        },
+        {
+            "current": 3500.0,
+            "min": 1000.0,
+            "max": 3500.0
+        },
+        {
+            "current": 3500.0,
+            "min": 1000.0,
+            "max": 3500.0
+        },
+        {
+            "current": 3500.0,
+            "min": 1000.0,
+            "max": 3500.0
+        },
+        {
+            "current": 3500.0,
+            "min": 1000.0,
+            "max": 3500.0
+        },
+        {
+            "current": 3500.0,
+            "min": 1000.0,
+            "max": 3500.0
+        },
+        {
+            "current": 3500.0,
+            "min": 1000.0,
+            "max": 3500.0
+        },
+        {
+            "current": 3500.0,
+            "min": 1000.0,
+            "max": 3500.0
+        },
+        {
+            "current": 3500.0,
+            "min": 1000.0,
+            "max": 3500.0
+        },
+        {
+            "current": 3500.0,
+            "min": 1000.0,
+            "max": 3500.0
+        },
+        {
+            "current": 3500.0,
+            "min": 1000.0,
+            "max": 3500.0
+        },
+        {
+            "current": 3500.0,
+            "min": 1000.0,
+            "max": 3500.0
+        },
+        {
+            "current": 3500.0,
+            "min": 1000.0,
+            "max": 3500.0
+        },
+        {
+            "current": 3500.0,
+            "min": 1000.0,
+            "max": 3500.0
+        },
+        {
+            "current": 3500.0,
+            "min": 1000.0,
+            "max": 3500.0
+        },
+        {
+            "current": 3382.883,
+            "min": 1000.0,
+            "max": 3500.0
+        },
+        {
+            "current": 3500.0,
+            "min": 1000.0,
+            "max": 3500.0
+        }
+    ],
+    "disk": {
+        "/": {
+            "total": 59.970703125,
+            "used": 31.44902801513672
+        }
+    },
+    "gpu": "Quadro RTX 8000",
+    "gpu_count": 1,
+    "gpu_devices": [
+        {
+            "name": "Quadro RTX 8000",
+            "memory_total": 51539607552
+        }
+    ],
+    "memory": {
+        "total": 187.5656280517578
+    }
+}

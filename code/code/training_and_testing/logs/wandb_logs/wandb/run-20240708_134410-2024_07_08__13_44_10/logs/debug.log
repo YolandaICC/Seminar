@@ -1,0 +1,30 @@
+2024-07-08 13:44:10,980 INFO    MainThread:2908769 [wandb_setup.py:_flush():76] Current SDK version is 0.17.3
+2024-07-08 13:44:10,980 INFO    MainThread:2908769 [wandb_setup.py:_flush():76] Configure stats pid to 2908769
+2024-07-08 13:44:10,980 INFO    MainThread:2908769 [wandb_setup.py:_flush():76] Loading settings from /home/zil57ceb/.config/wandb/settings
+2024-07-08 13:44:10,980 INFO    MainThread:2908769 [wandb_setup.py:_flush():76] Loading settings from /home/zil57ceb/Seafile/Mi Biblioteca/CAS Seminar Database/code/code/training_and_testing/wandb/settings
+2024-07-08 13:44:10,980 INFO    MainThread:2908769 [wandb_setup.py:_flush():76] Loading settings from environment variables: {}
+2024-07-08 13:44:10,980 INFO    MainThread:2908769 [wandb_setup.py:_flush():76] Inferring run settings from compute environment: {'program_relpath': 'main.py', 'program_abspath': '/home/zil57ceb/Seafile/Mi Biblioteca/CAS Seminar Database/code/code/training_and_testing/main.py', 'program': '/home/zil57ceb/Seafile/Mi Biblioteca/CAS Seminar Database/code/code/training_and_testing/main.py'}
+2024-07-08 13:44:10,980 INFO    MainThread:2908769 [wandb_setup.py:_flush():76] Applying login settings: {}
+2024-07-08 13:44:10,981 INFO    MainThread:2908769 [wandb_setup.py:_flush():76] Applying login settings: {}
+2024-07-08 13:44:10,981 INFO    MainThread:2908769 [wandb_init.py:_log_setup():520] Logging user logs to /home/zil57ceb/Seafile/Mi Biblioteca/CAS Seminar Database/code/code/training_and_testing/logs/wandb_logs/wandb/run-20240708_134410-2024_07_08__13_44_10/logs/debug.log
+2024-07-08 13:44:10,981 INFO    MainThread:2908769 [wandb_init.py:_log_setup():521] Logging internal logs to /home/zil57ceb/Seafile/Mi Biblioteca/CAS Seminar Database/code/code/training_and_testing/logs/wandb_logs/wandb/run-20240708_134410-2024_07_08__13_44_10/logs/debug-internal.log
+2024-07-08 13:44:10,981 INFO    MainThread:2908769 [wandb_init.py:init():560] calling init triggers
+2024-07-08 13:44:10,981 INFO    MainThread:2908769 [wandb_init.py:init():567] wandb.init called with sweep_config: {}
+config: {}
+2024-07-08 13:44:10,981 INFO    MainThread:2908769 [wandb_init.py:init():610] starting backend
+2024-07-08 13:44:10,981 INFO    MainThread:2908769 [wandb_init.py:init():614] setting up manager
+2024-07-08 13:44:10,985 INFO    MainThread:2908769 [backend.py:_multiprocessing_setup():105] multiprocessing start_methods=fork,spawn,forkserver, using: spawn
+2024-07-08 13:44:10,998 INFO    MainThread:2908769 [wandb_init.py:init():622] backend started and connected
+2024-07-08 13:44:11,005 INFO    MainThread:2908769 [wandb_init.py:init():711] updated telemetry
+2024-07-08 13:44:11,007 INFO    MainThread:2908769 [wandb_init.py:init():744] communicating run to backend with 90.0 second timeout
+2024-07-08 13:44:11,661 INFO    MainThread:2908769 [wandb_run.py:_on_init():2402] communicating current version
+2024-07-08 13:44:11,767 INFO    MainThread:2908769 [wandb_run.py:_on_init():2411] got version response upgrade_message: "wandb version 0.17.4 is available!  To upgrade, please run:\n $ pip install wandb --upgrade"
+
+2024-07-08 13:44:11,767 INFO    MainThread:2908769 [wandb_init.py:init():795] starting run threads in backend
+2024-07-08 13:44:12,715 INFO    MainThread:2908769 [wandb_run.py:_console_start():2380] atexit reg
+2024-07-08 13:44:12,716 INFO    MainThread:2908769 [wandb_run.py:_redirect():2235] redirect: wrap_raw
+2024-07-08 13:44:12,716 INFO    MainThread:2908769 [wandb_run.py:_redirect():2300] Wrapping output streams.
+2024-07-08 13:44:12,716 INFO    MainThread:2908769 [wandb_run.py:_redirect():2325] Redirects installed.
+2024-07-08 13:44:12,731 INFO    MainThread:2908769 [wandb_init.py:init():838] run started, returning control to user process
+2024-07-08 13:44:12,732 INFO    MainThread:2908769 [wandb_run.py:_config_callback():1382] config_cb None None {'batch_size': 50, 'sequence_length': 9}
+2024-07-08 13:44:29,687 INFO    MainThread:2908769 [wandb_run.py:_config_callback():1382] config_cb None None {'data_path': '/home/zil57ceb/Seafile/Mi Biblioteca/CAS Seminar Database/code/code/training_and_testing/dataset/data', 'recording_id': ['00'], 'sequence_length': 9, 'past_sequence_length': 6, 'future_sequence_length': 3, 'features': ['recordingId', 'trackId', 'xCenter', 'yCenter', 'xVelocity', 'yVelocity'], 'batch_size': 50}

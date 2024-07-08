@@ -1,0 +1,17 @@
+batch_size: 32
+data_path: /home/zil57ceb/Seafile/Mi Biblioteca/CAS Seminar Database/code/code/training_and_testing/dataset/data
+features:
+- recordingId
+- trackId
+- xCenter
+- yCenter
+- heading
+- xVelocity
+- yVelocity
+- xAcceleration
+- yAcceleration
+future_sequence_length: 3
+past_sequence_length: 6
+recording_id:
+- '00'
+sequence_length: 9

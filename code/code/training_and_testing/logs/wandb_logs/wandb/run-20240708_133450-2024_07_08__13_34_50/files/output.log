@@ -1,0 +1,91 @@
+/home/zil57ceb/.conda/envs/code/lib/python3.10/site-packages/lightning/fabric/plugins/environments/slurm.py:204: The `srun` command is available on your system but is not used. HINT: If your intention is to run Lightning on SLURM, prepend your python command with `srun` like so: srun python /home/zil57ceb/Seafile/Mi Biblioteca/CAS Seminar Dat ...
+GPU available: True (cuda), used: True
+TPU available: False, using: 0 TPU cores
+HPU available: False, using: 0 HPUs
+LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [0]
+/home/zil57ceb/.conda/envs/code/lib/python3.10/site-packages/torch/optim/lr_scheduler.py:28: UserWarning: The verbose parameter is deprecated. Please use get_last_lr() to access the learning rate.
+  warnings.warn("The verbose parameter is deprecated. Please use get_last_lr() "
+  | Name  | Type                 | Params | Mode
+-------------------------------------------------------
+0 | model | MultiLayerPerceptron | 1.4 K  | train
+-------------------------------------------------------
+1.4 K     Trainable params
+0         Non-trainable params
+1.4 K     Total params
+0.006     Total estimated model params size (MB)
+
+
+
+
+
+
+Epoch 0: 100%|██████████| 2874/2874 [00:12<00:00, 228.26it/s, v_num=4_50]
+
+
+
+
+
+
+Epoch 1: 100%|██████████| 2874/2874 [00:12<00:00, 234.59it/s, v_num=4_50]
+
+
+
+
+
+
+Epoch 2: 100%|██████████| 2874/2874 [00:12<00:00, 234.86it/s, v_num=4_50]
+
+
+
+
+
+
+Epoch 3: 100%|██████████| 2874/2874 [00:12<00:00, 235.82it/s, v_num=4_50]
+
+
+
+
+
+
+
+Epoch 4: 100%|██████████| 2874/2874 [00:12<00:00, 234.50it/s, v_num=4_50]
+
+
+
+
+
+
+Epoch 5: 100%|██████████| 2874/2874 [00:12<00:00, 230.95it/s, v_num=4_50]
+
+
+
+
+
+
+
+Epoch 6: 100%|██████████| 2874/2874 [00:12<00:00, 229.62it/s, v_num=4_50]
+
+
+
+
+
+
+Epoch 7: 100%|██████████| 2874/2874 [00:12<00:00, 227.88it/s, v_num=4_50]
+
+
+
+
+
+
+
+Epoch 8: 100%|██████████| 2874/2874 [00:12<00:00, 223.45it/s, v_num=4_50]
+
+
+
+
+
+
+Epoch 9: 100%|██████████| 2874/2874 [00:12<00:00, 230.98it/s, v_num=4_50]
+
+tear down
+`Trainer.fit` stopped: `max_epochs=10` reached.
