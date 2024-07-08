@@ -1,0 +1,8 @@
+jupyter
+torch
+torchvision
+tensorboard
+numpy
+matplotlib
+lightning
+

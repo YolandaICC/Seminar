@@ -1,0 +1,3 @@
+batch_size: 32
+future_sequence_length: 3
+past_sequence_length: 4
