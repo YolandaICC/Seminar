@@ -15,12 +15,12 @@
 import logging
 import lightning as pl
 import torch
-import wandb
+# import wandb
 from callbacks import create_callbacks
 from lit_datamodule import inD_RecordingModule
 from lit_module import LitModule
 from utils import create_wandb_logger, get_data_path, build_module
-from nn_modules import ConstantVelocityModel, MultiLayerPerceptron, RecurrentNeuralNetwork, ConstantAccelerationModel
+from nn_modules import ConstantVelocityModel, MultiLayerPerceptron, RecurrentNeuralNetwork, ConstantAccelerationModel, LSTMModel
 from select_features import select_features
 
 ##################################################################
@@ -69,9 +69,10 @@ if __name__ == '__main__':
     #  defined as a class. The class should inherit from torch.nn.Module. Check out the MLPModel class in the nn_modules.py!
     # mdl = ConstantVelocityModel()
     # mdl = ConstantAccelerationModel()
-    mdl = MultiLayerPerceptron(input_size, hidden_size, output_size)
-    # mdl = RecurrentNeuralNetwork(input_size, hidden_size, output_size, batch_size)
-    # hidden_tensor = mdl.init_zero_hidden(batch_size)
+    # mdl = MultiLayerPerceptron(input_size, hidden_size, output_size)
+    mdl = RecurrentNeuralNetwork(input_size, hidden_size, output_size, batch_size)
+    hidden_tensor = mdl.init_zero_hidden(batch_size)
+    mdl = LSTMModel(ninp=input_size, nhid=hidden_size)
 
 
 
@@ -86,9 +87,9 @@ if __name__ == '__main__':
 
     #################### Setup Training #####################################
     # TODO: Change the epochs to the number of epochs you want to train
-    epochs = 10
+    epochs = 5
     # model = LitModule(mdl, number_of_features, sequence_length, past_sequence_length, future_sequence_length, batch_size, hidden_tensor)
-    model = LitModule(mdl, number_of_features, sequence_length, past_sequence_length, future_sequence_length, batch_size)
+    model = LitModule(mdl, number_of_features, sequence_length, past_sequence_length, future_sequence_length, batch_size, hidden_tensor)
 
     dm.setup(stage=stage)
 
@@ -108,8 +109,9 @@ if __name__ == '__main__':
                          accelerator="auto",
                          log_every_n_steps=5,
                          # logger=wandb_logger,
+                         num_sanity_val_steps=0, # Skip the sanity check
                          callbacks=callbacks,
-                         check_val_every_n_epoch=1,
+                         check_val_every_n_epoch=3,
                          precision="64-true"
                          )
 

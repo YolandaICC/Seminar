@@ -1,2 +1,5 @@
 *.zip
 inD-dataset-v1.1/
+**/__pycache__/
+**/lightning_logs/
+.vscode/

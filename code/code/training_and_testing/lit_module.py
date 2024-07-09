@@ -17,7 +17,7 @@ class LitModule(pl.LightningModule):
         `validation_step`, and `test_step` as thin wrappers that call `step`.
     """
     # def __init__(self, model, number_of_features, sequence_length, past_sequence_length, future_sequence_length, batch_size, hidden_tensor):
-    def __init__(self, model, number_of_features, sequence_length, past_sequence_length, future_sequence_length, batch_size):
+    def __init__(self, model, number_of_features, sequence_length, past_sequence_length, future_sequence_length, batch_size, hidden_tensor):
         super().__init__()
         self.model = model
         self.nx = number_of_features
@@ -26,15 +26,15 @@ class LitModule(pl.LightningModule):
         self.future_sequence_length = future_sequence_length
         self.batch_size = batch_size
         self.test_step_outputs = []
-        # self.hidden_tensor = hidden_tensor
+        self.hidden_tensor = hidden_tensor
 
 
     def forward(self, x):
-        # y_hat, hidden = self.model(x, self.hidden_tensor)
-        # return y_hat, hidden
+        y_hat, hidden = self.model(x, self.hidden_tensor)
+        return y_hat, hidden
         #
-        y_hat = self.model(x)
-        return y_hat
+        # y_hat = self.model(x)
+        # return y_hat
 
     def training_step(self, batch, batch_idx):
         string = "training"

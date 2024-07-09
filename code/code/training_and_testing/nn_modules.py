@@ -113,3 +113,38 @@ class RecurrentNeuralNetwork(nn.Module):
         Returns a hidden state with specified batch size. Defaults to 1
         """
         return torch.zeros(batch_size, self.hidden_size, requires_grad=False)
+    
+class LSTMModel(nn.Module):
+    def __init__(self, vocab_size=33278, ninp=200, nhid=200, nlayers=2, dropout=0.2):
+        super().__init__()
+        self.vocab_size = vocab_size
+        self.drop = nn.Dropout(dropout)
+        self.encoder = nn.Embedding(vocab_size, ninp)
+        self.rnn = nn.LSTM(ninp, nhid, nlayers, dropout=dropout, batch_first=True)
+        self.decoder = nn.Linear(nhid, vocab_size)
+
+        self.nlayers = nlayers
+        self.nhid = nhid
+        self.init_weights()
+
+    def init_weights(self):
+        initrange = 0.1
+        nn.init.uniform_(self.encoder.weight, -initrange, initrange)
+        nn.init.zeros_(self.decoder.bias)
+        nn.init.uniform_(self.decoder.weight, -initrange, initrange)
+
+    def forward(self, input, hidden):
+        # emb = self.drop(self.encoder(input))
+        # output, hidden = self.rnn(emb, hidden)
+        output, hidden = self.rnn(input, hidden)
+        output = self.drop(output)
+        decoded = self.decoder(output)
+        decoded = decoded.view(-1, self.vocab_size)
+        return F.log_softmax(decoded, dim=1), hidden
+
+    def init_hidden(self, bsz):
+        weight = next(self.parameters())
+        return (
+            weight.new_zeros(self.nlayers, bsz, self.nhid),
+            weight.new_zeros(self.nlayers, bsz, self.nhid),
+        )
