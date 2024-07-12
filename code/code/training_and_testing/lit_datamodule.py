@@ -26,7 +26,7 @@ class inD_RecordingModule(pl.LightningDataModule):
         Batch size.
     """
     def __init__(self, data_path, recording_id,
-                 sequence_length, past_sequence_length, future_sequence_length, features,
+                 sequence_length, past_sequence_length, future_sequence_length, features_tracks, features_tracksmeta,
                  batch_size: int = 32):
         super().__init__()
         self.data_path = data_path
@@ -36,7 +36,8 @@ class inD_RecordingModule(pl.LightningDataModule):
         self.sequence_length = sequence_length
         self.past_sequence_length = past_sequence_length
         self.future_sequence_length = future_sequence_length
-        self.features = features
+        self.features_tracks = features_tracks
+        self.features_tracksmeta = features_tracksmeta
         self.save_hyperparameters()
 
     def setup(self, stage: str):
@@ -47,11 +48,11 @@ class inD_RecordingModule(pl.LightningDataModule):
             Stage of the data. Can be "fit", "test" or "predict".
         """
         if stage == "test":
-            self.test = inD_RecordingDataset(self.data_path, self.recording_id, self.sequence_length, self.features, self.transform)
+            self.test = inD_RecordingDataset(self.data_path, self.recording_id, self.sequence_length, self.features_tracks, self.features_tracksmeta, self.transform)
         if stage == "predict":
-            self.predict = inD_RecordingDataset(self.data_path, self.recording_id, self.sequence_length, self.features, self.transform)
+            self.predict = inD_RecordingDataset(self.data_path, self.recording_id, self.sequence_length, self.features_tracks, self.features_tracksmeta, self.transform)
         if stage == "fit":
-            full = inD_RecordingDataset(self.data_path, self.recording_id, self.sequence_length, self.features, self.transform)
+            full = inD_RecordingDataset(self.data_path, self.recording_id, self.sequence_length, self.features_tracks, self.features_tracksmeta, self.transform)
             data_size = len(full)
             # TODO: change the ration between train and val if you like!
             train_size = int(0.70 * data_size) #95% to be for training

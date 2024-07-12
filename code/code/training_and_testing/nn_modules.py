@@ -18,19 +18,26 @@ class ConstantVelocityModel(nn.Module):
         self.dt = dt
 
     def forward(self, x):
-        # x = x[:,-1,1:5]
+        # Select the last tim step from the input sequence
+        x_last = x[:, -1, :]  # shape: (batch_size, number_of_features)
 
-        x_center = x[:,-1, 2]
-        y_center = x[:,-1, 3]
-        x_vel = x[:, -1, 5]
-        y_vel = x[:, -1, 6]
+        x_center = x_last[:, 0]
+        y_center = x_last[:, 1]
+        x_vel = x_last[:, 2]
+        y_vel = x_last[:, 3]
+        # x_acc = x[:, 7]
+        # y_acc = x[:, 8]
 
+        # old position + velocity * dt
+        new_x_center = x_center + self.dt * x_vel
+        new_y_center = y_center + self.dt * y_vel
+        new_positions = torch.stack((new_x_center, new_y_center, x_vel, y_vel),
+                                    dim=1)  # shape: (batch_size, 2)
 
-        x_center_plus = x_center + self.dt * x_vel
-        y_center_plus = y_center + self.dt * y_vel
+        # Replicate the new_positions to match the number of features
+        # new_positions = new_positions.unsqueeze(-1).expand(-1, -1, x.shape[-1])  # shape: (batch_size, 2, number_of_features)
 
-        x_plus = torch.stack([x_center_plus,y_center_plus,x_vel, y_vel], dim=1)
-        return x_plus
+        return new_positions
 
 class ConstantAccelerationModel(nn.Module):
     def __init__(self, dt=1.0):
@@ -38,19 +45,26 @@ class ConstantAccelerationModel(nn.Module):
         self.dt = dt
 
     def forward(self, x):
+        # Select the last tim step from the input sequence
+        x_last = x[:, -1, :]  # shape: (batch_size, number_of_features)
 
-        x_center = x[:, -1, 2]
-        y_center = x[:, -1, 3]
-        x_vel = x[:, -1, 5]
-        y_vel = x[:, -1, 6]
-        x_acc = x[:, -1, 7]
-        y_acc = x[:, -1, 8]
+        x_center = x[:, 0]
+        y_center = x[:, 1]
+        x_vel = x[:, 2]
+        y_vel = x[:, 3]
+        # x_acc = x[:, 7]
+        # y_acc = x[:, 8]
 
-        x_center_plus = x_center + self.dt * x_vel + (1/2)*(x_acc)^2
-        y_center_plus = y_center + self.dt * y_vel + (1/2)*(y_acc)^2
+        # old position + velocity * dt
+        new_x_center = x_center + self.dt * x_vel
+        new_y_center = y_center + self.dt * y_vel
+        new_positions = torch.stack((new_x_center, new_y_center, x_vel, y_vel),
+                                    dim=1)  # shape: (batch_size, 2)
 
-        x_plus = torch.stack([x_center_plus, y_center_plus, x_vel, y_vel], dim=1)
-        return x_plus
+        # Replicate the new_positions to match the number of features
+        # new_positions = new_positions.unsqueeze(-1).expand(-1, -1, x.shape[-1])  # shape: (batch_size, 2, number_of_features)
+
+        return new_positions
 
 # this will be a neural network by itself
 class MultiLayerPerceptron(nn.Module):

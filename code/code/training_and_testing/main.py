@@ -44,12 +44,12 @@ stage = "fit"
 #################### Training Parameters #####################################
 # TODO: Change the recording_ID to the recordings you want to train on
 #recording_ID = ["01", "02"]#, "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31", "32"]
-recording_ID = ["00"]
+recording_ID = ["00", "01"]
 
 # TODO: Change the features to the features you want to use. The features are defined in the select_features.py file
 # This is referring to an unmodified dataset. So depending on your goal, modify the dataset and set the features accordingly.
 #  If you change your dataset, you have to change recreate a feature list that suits your dataset
-features, number_of_features = select_features()
+features_tracks, features_tracksmeta, number_of_features = select_features()
 past_sequence_length = 6
 future_sequence_length = 3
 sequence_length = past_sequence_length + future_sequence_length
@@ -80,7 +80,7 @@ if __name__ == '__main__':
     #  The datamodule is defined in the kinematic_bicycle_datasetclass.py file
     #  The data set is defined in the lit_dataset.py file
     #  Check them out now!
-    dm = inD_RecordingModule(data_path, recording_ID, sequence_length, past_sequence_length, future_sequence_length, features, batch_size=batch_size)
+    dm = inD_RecordingModule(data_path, recording_ID, sequence_length, past_sequence_length, future_sequence_length, features_tracks, features_tracksmeta, batch_size=batch_size)
 
 
 
