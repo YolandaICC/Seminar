@@ -24,5 +24,3 @@ def select_features():
         ]
     number_of_features = len(features) + 1
     return features, number_of_features
-
-

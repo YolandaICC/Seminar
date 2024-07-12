@@ -26,7 +26,7 @@ class inD_RecordingDataset(Dataset):
         self.recording_id = recording_id
         self.sequence_length = sequence_length
         self.features = features
-        self.item_type = ["class"]
+        self.item_type = 3
         self.train = train
         self.transform = self.get_transform()
         if type(self.recording_id) == list:
@@ -47,8 +47,9 @@ class inD_RecordingDataset(Dataset):
                     # label encode the 'Precip Type' column
                     tracksMeta_data['class'] = le.fit_transform(item_types)
                     # Left join with main table
-                    self.data = self.data.merge(tracksMeta_data, on='trackId', how='left')
+                    merged_data = self.data.merge(tracksMeta_data, on='trackId', how='left')
 
+                    self.data = merged_data[(merged_data["class"] == self.item_type)]
                     encoded_values = list(le.classes_)
                     actual_values = list(tracksMeta_data['class'].unique())
 
@@ -72,7 +73,9 @@ class inD_RecordingDataset(Dataset):
                 # label encode the 'Precip Type' column
                 tracksMeta_data['class'] = le.fit_transform(item_types)
                 # Left join with main table
-                self.data = self.data.merge(tracksMeta_data, on='trackId', how='left')
+                merged_data = self.data.merge(tracksMeta_data, on='trackId', how='left')
+
+                self.data = merged_data[(merged_data["class"] == self.item_type)]
 
                 # self.data = pd.concat([self.data, pd.read_csv(f, delimiter=',', header=0, usecols=self.features, dtype='float64')])
                 print(self.data)
@@ -96,7 +99,7 @@ class inD_RecordingDataset(Dataset):
             The data at index idx.
         """
         if idx <= self.__len__():
-            # for each step this function will be called 
+            # for each step this function will be called
             data = self.data[idx:idx + self.sequence_length]
             # data type tensor specific for pytorh is like and array
             if self.transform:

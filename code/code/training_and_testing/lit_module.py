@@ -10,7 +10,6 @@ class LitModule(pl.LightningModule):
     """
     This is a standard PyTorch Lightning module,
     with a few PyTorch-Lightning-specific things added.
-
     The main things to notice are:
     - Instead of defining different steps for training, validation, and testing,
         we define a single `step` function, and then define `training_step`,
@@ -148,5 +147,4 @@ class LitModule(pl.LightningModule):
         return optimizer_and_scheduler
         # else:
         #     return []
-
 

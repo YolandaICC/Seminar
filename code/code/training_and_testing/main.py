@@ -45,7 +45,7 @@ stage = "fit"
 # TODO: Change the recording_ID to the recordings you want to train on
 #recording_ID = ["01", "02"]#, "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31", "32"]
 recording_ID = ["00"]
-          
+
 # TODO: Change the features to the features you want to use. The features are defined in the select_features.py file
 # This is referring to an unmodified dataset. So depending on your goal, modify the dataset and set the features accordingly.
 #  If you change your dataset, you have to change recreate a feature list that suits your dataset
@@ -118,4 +118,3 @@ if __name__ == '__main__':
     elif stage == "test":
         trainer.test(model, dm)
     # wandb.finish()
-

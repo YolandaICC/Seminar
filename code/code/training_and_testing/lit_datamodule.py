@@ -4,7 +4,7 @@ from torch.utils.data import DataLoader, random_split
 import os
 from lit_dataset import inD_RecordingDataset
 
-#separate the data into testing etc 
+#separate the data into testing etc
 
 class inD_RecordingModule(pl.LightningDataModule):
     """LightningDataModule for inD dataset.
@@ -59,7 +59,7 @@ class inD_RecordingModule(pl.LightningDataModule):
             self.train, self.val = random_split(full, [train_size, val_size])
 
     # this is also specific for if you want ot test the model after training, all load diff set of data
-    
+
     def train_dataloader(self):
         return DataLoader(self.train,
                           batch_size=self.batch_size,
