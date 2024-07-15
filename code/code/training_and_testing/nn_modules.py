@@ -114,8 +114,8 @@ class RecurrentNeuralNetwork(nn.Module):
         """
         return torch.zeros(batch_size, self.hidden_size, requires_grad=False)
     
-class LSTMModel(nn.Module):
-    def __init__(self, vocab_size=33278, ninp=200, nhid=200, nlayers=2, dropout=0.2):
+class LSTMModelv1(nn.Module):
+    def __init__(self, vocab_size=10, ninp=200, nhid=200, nlayers=2, dropout=0.2):
         super().__init__()
         self.vocab_size = vocab_size
         self.drop = nn.Dropout(dropout)
@@ -136,15 +136,49 @@ class LSTMModel(nn.Module):
     def forward(self, input, hidden):
         # emb = self.drop(self.encoder(input))
         # output, hidden = self.rnn(emb, hidden)
-        output, hidden = self.rnn(input, hidden)
+        # print(input.size())
+        # print(input.view(50, -1).size())
+        output, hidden = self.rnn(input.view(50,1,-1), hidden)
         output = self.drop(output)
         decoded = self.decoder(output)
         decoded = decoded.view(-1, self.vocab_size)
         return F.log_softmax(decoded, dim=1), hidden
 
-    def init_hidden(self, bsz):
+    def init_hidden(self, batch_size):
         weight = next(self.parameters())
         return (
-            weight.new_zeros(self.nlayers, bsz, self.nhid),
-            weight.new_zeros(self.nlayers, bsz, self.nhid),
+            # weight.new_zeros(self.nlayers, batch_size, self.nhid, dtype=float, device=torch.device('cuda:0')),
+            # weight.new_zeros(self.nlayers, batch_size, self.nhid, dtype=float, device=torch.device('cuda:0')),
+            weight.new_zeros(self.nlayers, batch_size, self.nhid, dtype=float),
+            weight.new_zeros(self.nlayers, batch_size, self.nhid, dtype=float),
         )
+    
+class LSTMModelv2(nn.Module):
+    def __init__(self, vocab_size=10, ninp=200, nhid=200, nlayers=2, dropout=0.2):
+        super().__init__()
+        self.drop = nn.Dropout(dropout)
+        self.rnn = nn.LSTM(ninp, nhid, nlayers, dropout=dropout, batch_first=True)
+        self.decoder = nn.Linear(nhid, vocab_size)
+        self.nlayers = nlayers
+        self.nhid = nhid
+        self.init_weights()
+
+    def init_weights(self):
+        initrange = 0.1
+        nn.init.uniform_(self.decoder.weight, -initrange, initrange)
+        nn.init.zeros_(self.decoder.bias)
+
+    def forward(self, input, hidden):
+        print(input.size, hidden[0].size)
+        output, hidden = self.rnn(input, hidden)
+        output = self.drop(output)
+        decoded = self.decoder(output)
+        return F.log_softmax(decoded, dim=2), hidden
+
+    def init_hidden(self, batch_size):
+        weight = next(self.parameters())
+        return (
+            weight.new_zeros(self.nlayers, batch_size, self.nhid),
+            weight.new_zeros(self.nlayers, batch_size, self.nhid),
+        )    
+

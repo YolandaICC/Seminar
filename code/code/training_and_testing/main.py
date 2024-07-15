@@ -20,7 +20,7 @@ from callbacks import create_callbacks
 from lit_datamodule import inD_RecordingModule
 from lit_module import LitModule
 from utils import create_wandb_logger, get_data_path, build_module
-from nn_modules import ConstantVelocityModel, MultiLayerPerceptron, RecurrentNeuralNetwork, ConstantAccelerationModel, LSTMModel
+from nn_modules import ConstantVelocityModel, MultiLayerPerceptron, RecurrentNeuralNetwork, ConstantAccelerationModel, LSTMModelv2
 from select_features import select_features
 
 ##################################################################
@@ -70,9 +70,9 @@ if __name__ == '__main__':
     # mdl = ConstantVelocityModel()
     # mdl = ConstantAccelerationModel()
     # mdl = MultiLayerPerceptron(input_size, hidden_size, output_size)
-    mdl = RecurrentNeuralNetwork(input_size, hidden_size, output_size, batch_size)
-    hidden_tensor = mdl.init_zero_hidden(batch_size)
-    mdl = LSTMModel(ninp=input_size, nhid=hidden_size)
+    # mdl = RecurrentNeuralNetwork(input_size, hidden_size, output_size, batch_size)
+    mdl = LSTMModelv2(ninp=input_size, nhid=hidden_size)
+    hidden_tensor = mdl.init_hidden(batch_size)
 
 
 
@@ -106,7 +106,7 @@ if __name__ == '__main__':
     trainer = pl.Trainer(max_epochs=epochs,
                          fast_dev_run=False,
                          devices="auto",
-                         accelerator="auto",
+                         accelerator="cpu",
                          log_every_n_steps=5,
                          # logger=wandb_logger,
                          num_sanity_val_steps=0, # Skip the sanity check
@@ -114,6 +114,8 @@ if __name__ == '__main__':
                          check_val_every_n_epoch=3,
                          precision="64-true"
                          )
+
+    print(dm.train, dm.val)
 
     if stage == "fit":
         trainer.fit(model, dm)

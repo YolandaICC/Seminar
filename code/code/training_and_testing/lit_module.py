@@ -2,7 +2,6 @@ import lightning as pl
 import torch
 import torch.nn.functional as F
 import matplotlib.pyplot as plt
-from nn_modules import RecurrentNeuralNetwork
 
 #will influence all the major process in the training process
 
@@ -59,12 +58,13 @@ class LitModule(pl.LightningModule):
         x, y = self.prep_data_for_step(batch)
         # Initialize empty list to store the predicted output values
         y_hat_list = []
+        hidden = self.hidden_tensor  # initialize hidden state outside the loop
 
         # Loop over the range of 'future_sequence_length'
         for k in range(self.future_sequence_length):
             # For each iteration, make a prediction 'y_hat_k' based on the current input sequence 'x'
-            # y_hat_k, self.hidden_tensor = self(x)
-            y_hat_k = self(x)
+            y_hat_k, hidden = self(x)
+            # y_hat_k = self(x)
             # Append the predicted output to the 'y_hat_list'
             y_hat_list.append(y_hat_k)
 
@@ -79,6 +79,9 @@ class LitModule(pl.LightningModule):
         #return_dict = {"loss": loss, "y_predicted": y_hat, "y": y}
 
         return loss #, return_dict
+    
+    def backward(self, loss):
+        loss.backward(retain_graph=True)
 
     def on_test_epoch_end(self):
         # This method just visualizes the trajectories of the bicycle model
