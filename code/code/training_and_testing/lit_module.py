@@ -16,7 +16,7 @@ class LitModule(pl.LightningModule):
         `validation_step`, and `test_step` as thin wrappers that call `step`.
     """
     # def __init__(self, model, number_of_features, sequence_length, past_sequence_length, future_sequence_length, batch_size, hidden_tensor):
-    def __init__(self, model, number_of_features, sequence_length, past_sequence_length, future_sequence_length, batch_size, hidden_tensor):
+    def __init__(self, model, number_of_features, sequence_length, past_sequence_length, future_sequence_length, batch_size, hidden_tensor = None):
         super().__init__()
         self.model = model
         self.nx = number_of_features
@@ -25,7 +25,7 @@ class LitModule(pl.LightningModule):
         self.future_sequence_length = future_sequence_length
         self.batch_size = batch_size
         self.test_step_outputs = []
-        self.hidden_tensor = hidden_tensor
+        self.hidden = hidden_tensor
 
 
     def forward(self, x):
@@ -56,29 +56,19 @@ class LitModule(pl.LightningModule):
         """
         # TODO: You have to modify this based on your task, model and data. This is where most of the engineering happens!
         x, y = self.prep_data_for_step(batch)
-        # Initialize empty list to store the predicted output values
-        y_hat_list = []
-        hidden = self.hidden_tensor  # initialize hidden state outside the loop
 
-        # Loop over the range of 'future_sequence_length'
-        for k in range(self.future_sequence_length):
-            # For each iteration, make a prediction 'y_hat_k' based on the current input sequence 'x'
-            y_hat_k, hidden = self(x)
-            # y_hat_k = self(x)
-            # Append the predicted output to the 'y_hat_list'
-            y_hat_list.append(y_hat_k)
+        self.hidden = self.model.init_hidden(x.size(0)) # Initializing the hidden layer every step may not save the hidden values, we need to look into that.
 
-            if y_hat_k.dim() < 3:
-                y_hat_k = y_hat_k.unsqueeze(1)
-            x = torch.cat([x[:, 1:, :], y_hat_k], dim=1)
+        # Detach hidden state from previous sequence
+        self.hidden = (self.hidden[0].detach(), self.hidden[1].detach())
+        
+        # print(x.shape, self.hidden[0].shape)
+        output, self.hidden = self.model(x, self.hidden)
 
-        y_hat = torch.stack(y_hat_list, dim=1).squeeze()
-        loss = F.mse_loss(y_hat, y)
-        self.log(f"{string}_loss", loss)
+        loss = F.mse_loss(output, y)
 
-        #return_dict = {"loss": loss, "y_predicted": y_hat, "y": y}
-
-        return loss #, return_dict
+        self.log("train_loss", loss)
+        return loss
     
     def backward(self, loss):
         loss.backward(retain_graph=True)
@@ -144,7 +134,8 @@ class LitModule(pl.LightningModule):
             "optimizer": optimizer,
             "lr_scheduler": {
                 "scheduler": scheduler,
-                "monitor": "training_loss",
+                "monitor": "train_loss",
+                "verbose": True,
                 "frequency": 1,
                 "strict": True}
         }

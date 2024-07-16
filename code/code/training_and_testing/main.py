@@ -20,7 +20,7 @@ from callbacks import create_callbacks
 from lit_datamodule import inD_RecordingModule
 from lit_module import LitModule
 from utils import create_wandb_logger, get_data_path, build_module
-from nn_modules import ConstantVelocityModel, MultiLayerPerceptron, RecurrentNeuralNetwork, ConstantAccelerationModel, LSTMModelv2
+from nn_modules import ConstantVelocityModel, MultiLayerPerceptron, RecurrentNeuralNetwork, ConstantAccelerationModel, LSTMModelv1, LSTMModelv2, LSTMModelv3
 from select_features import select_features
 
 ##################################################################
@@ -50,14 +50,15 @@ recording_ID = ["00"]
 # This is referring to an unmodified dataset. So depending on your goal, modify the dataset and set the features accordingly.
 #  If you change your dataset, you have to change recreate a feature list that suits your dataset
 features, number_of_features = select_features()
-past_sequence_length = 6
-future_sequence_length = 3
+past_sequence_length = 10
+future_sequence_length = 5
 sequence_length = past_sequence_length + future_sequence_length
 
 #################### Model Parameters #####################################
 
 batch_size = 50
-input_size = number_of_features * past_sequence_length
+# input_size = number_of_features * past_sequence_length
+input_size = number_of_features
 output_size = number_of_features
 hidden_size = 32
 
@@ -71,8 +72,9 @@ if __name__ == '__main__':
     # mdl = ConstantAccelerationModel()
     # mdl = MultiLayerPerceptron(input_size, hidden_size, output_size)
     # mdl = RecurrentNeuralNetwork(input_size, hidden_size, output_size, batch_size)
-    mdl = LSTMModelv2(ninp=input_size, nhid=hidden_size)
-    hidden_tensor = mdl.init_hidden(batch_size)
+    # mdl = LSTMModelv2(ninp=input_size, nhid=hidden_size)
+    mdl = LSTMModelv3(input_size, hidden_size, output_size, future_sequence_length=future_sequence_length)
+    # hidden_tensor = mdl.init_hidden(batch_size)
 
 
 
@@ -89,7 +91,7 @@ if __name__ == '__main__':
     # TODO: Change the epochs to the number of epochs you want to train
     epochs = 5
     # model = LitModule(mdl, number_of_features, sequence_length, past_sequence_length, future_sequence_length, batch_size, hidden_tensor)
-    model = LitModule(mdl, number_of_features, sequence_length, past_sequence_length, future_sequence_length, batch_size, hidden_tensor)
+    model = LitModule(mdl, number_of_features, sequence_length, past_sequence_length, future_sequence_length, batch_size)
 
     dm.setup(stage=stage)
 
@@ -106,7 +108,7 @@ if __name__ == '__main__':
     trainer = pl.Trainer(max_epochs=epochs,
                          fast_dev_run=False,
                          devices="auto",
-                         accelerator="cpu",
+                         accelerator="auto",
                          log_every_n_steps=5,
                          # logger=wandb_logger,
                          num_sanity_val_steps=0, # Skip the sanity check

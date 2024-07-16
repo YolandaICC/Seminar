@@ -115,6 +115,7 @@ class RecurrentNeuralNetwork(nn.Module):
         return torch.zeros(batch_size, self.hidden_size, requires_grad=False)
     
 class LSTMModelv1(nn.Module):
+    """ First trial version of and LSTM. Model template to read and predict texts (most popular use of LSTMs). """
     def __init__(self, vocab_size=10, ninp=200, nhid=200, nlayers=2, dropout=0.2):
         super().__init__()
         self.vocab_size = vocab_size
@@ -154,11 +155,12 @@ class LSTMModelv1(nn.Module):
         )
     
 class LSTMModelv2(nn.Module):
-    def __init__(self, vocab_size=10, ninp=200, nhid=200, nlayers=2, dropout=0.2):
+    """ A cleaner and simpler update to v1. Trying to match data shapes """
+    def __init__(self, num_features=10, ninp=200, nhid=200, nlayers=2, dropout=0.2):
         super().__init__()
         self.drop = nn.Dropout(dropout)
         self.rnn = nn.LSTM(ninp, nhid, nlayers, dropout=dropout, batch_first=True)
-        self.decoder = nn.Linear(nhid, vocab_size)
+        self.decoder = nn.Linear(nhid, num_features)
         self.nlayers = nlayers
         self.nhid = nhid
         self.init_weights()
@@ -169,7 +171,7 @@ class LSTMModelv2(nn.Module):
         nn.init.zeros_(self.decoder.bias)
 
     def forward(self, input, hidden):
-        print(input.size, hidden[0].size)
+        print(input.shape, hidden[0].shape)
         output, hidden = self.rnn(input, hidden)
         output = self.drop(output)
         decoded = self.decoder(output)
@@ -178,7 +180,30 @@ class LSTMModelv2(nn.Module):
     def init_hidden(self, batch_size):
         weight = next(self.parameters())
         return (
-            weight.new_zeros(self.nlayers, batch_size, self.nhid),
-            weight.new_zeros(self.nlayers, batch_size, self.nhid),
+            weight.new_zeros(self.nlayers, batch_size, self.nhid, dtype=torch.float64, device=torch.device('cuda')),
+            weight.new_zeros(self.nlayers, batch_size, self.nhid, dtype=torch.float64, device=torch.device('cuda')),
         )    
+
+class LSTMModelv3(nn.Module):
+    r""" A simple LSTM model.
+    This new version is seeking to eliminate the text prediction structure
+    and be simple to handle Tensors' shape issues """
+    def __init__(self, input_size, hidden_size, output_size, num_layers=1, future_sequence_length=1):
+        super(LSTMModelv3, self).__init__()
+        self.hidden_size = hidden_size
+        self.num_layers = num_layers    # Adding num_layers will add more hidden layers in the LSTM nn.
+        self.future_sequence_length = future_sequence_length
+        self.lstm = nn.LSTM(input_size, hidden_size, num_layers, batch_first=True)
+        self.predict_layer = nn.Linear(hidden_size, output_size * future_sequence_length)  # Fully connected layer. Linear transformation predicting 3 future sequences
+
+    def forward(self, x, hidden):
+        output, hidden = self.lstm(x, hidden)   # We return the hidden layer values to be used 
+        output = self.predict_layer(output[:, -1, :])  # Get the last output of the sequence
+        output = output.view(output.size(0), self.future_sequence_length, -1)  # Reshape to (batch_size, future_sequence_length, output_size)
+        return output, hidden
+
+    def init_hidden(self, batch_size):
+        weight = next(self.parameters())
+        return (weight.new_zeros(self.num_layers, batch_size, self.hidden_size),
+                weight.new_zeros(self.num_layers, batch_size, self.hidden_size))   
 
