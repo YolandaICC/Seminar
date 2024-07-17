@@ -57,6 +57,8 @@ sequence_length = past_sequence_length + future_sequence_length
 #################### Model Parameters #####################################
 
 batch_size = 50
+
+# Use first input_size for MLP and second input_size fo LSTM
 # input_size = number_of_features * past_sequence_length
 input_size = number_of_features
 output_size = number_of_features
