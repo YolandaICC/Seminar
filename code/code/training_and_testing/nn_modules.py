@@ -83,8 +83,37 @@ class MultiLayerPerceptron(nn.Module):
         batch_size = x.shape[0]
         x = x.flatten(start_dim=1)
         x = self.layers(x)
-        x = x.view(batch_size, -1, self.output_dim)
+
         return x
+
+
+class LSTMModel(nn.Module):
+    r""" A simple LSTM model.
+    This new version is seeking to eliminate the text prediction structure
+    and be simple to handle Tensors' shape issues """
+    def __init__(self, input_dim, hidden_dim, output_dim, num_layers=1, future_sequence_length=1):
+        super(LSTMModel, self).__init__()
+        self.input_dim = input_dim
+        self.hidden_dim = hidden_dim
+        self.output_dim = output_dim
+        self.lstm = nn.LSTM(input_dim, hidden_dim, num_layers=1)
+        self.linear = nn.Linear(hidden_dim, output_dim)  # * future_sequence_length
+
+    def forward(self, x):
+        # output, (h_n, c_n) = self.lstm(x)
+        # batch_size = x.shape[0]
+        # x = x.flatten(start_dim=1)
+        x, _ = self.lstm(x)
+        x = self.linear(x)
+        # x = x.view(batch_size, -1, self.output_dim)
+        tensor_reduced = x[:, 0, :]
+        return tensor_reduced
+
+    # def init_hidden(self, batch_size):
+    #     weight = next(self.parameters())
+    #     hidden_tensor = (weight.new_zeros(self.num_layers, batch_size, self.hidden_size),
+    #                      weight.new_zeros(self.num_layers, batch_size, self.hidden_size))
+    #     return hidden_tensor
 
 
 class RecurrentNeuralNetwork(nn.Module):
@@ -127,3 +156,4 @@ class RecurrentNeuralNetwork(nn.Module):
         Returns a hidden state with specified batch size. Defaults to 1
         """
         return torch.zeros(batch_size, self.hidden_size, requires_grad=False)
+

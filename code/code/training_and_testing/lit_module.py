@@ -15,7 +15,7 @@ class LitModule(pl.LightningModule):
         we define a single `step` function, and then define `training_step`,
         `validation_step`, and `test_step` as thin wrappers that call `step`.
     """
-    # def __init__(self, model, number_of_features, sequence_length, past_sequence_length, future_sequence_length, batch_size, hidden_tensor):
+    # def __init__(self, model, number_of_features, sequence_length, past_sequence_length, future_sequence_length, batch_size):
     def __init__(self, model, number_of_features, sequence_length, past_sequence_length, future_sequence_length, batch_size):
         super().__init__()
         self.model = model
@@ -25,11 +25,11 @@ class LitModule(pl.LightningModule):
         self.future_sequence_length = future_sequence_length
         self.batch_size = batch_size
         # self.test_step_outputs = []
-        # self.hidden_tensor = hidden_tensor
 
     def forward(self, x):
         return self.model(x)
-
+        # y_hat, hidden = self.model(x, self.hidden_tensor)
+        # return y_hat, hidden
     def training_step(self, batch, batch_idx):
         string = "training"
         loss = self.step(batch, batch_idx, string)
@@ -49,7 +49,23 @@ class LitModule(pl.LightningModule):
         """
         This is the main step function that is used by training_step, validation_step, and test_step.
         """
-        # TODO: You have to modify this based on your task, model and data. This is where most of the engineering happens!
+        # # TODO: You have to modify this based on your task, model and data. This is where most of the engineering happens!
+        # # MLP lit module
+        # x, y = self.prep_data_for_step(batch)
+        # y_hat_list = []
+        # for k in range(self.future_sequence_length):
+        #     y_hat_k = self(x)
+        #     y_hat_list.append(y_hat_k)
+        #     if y_hat_k.dim() < 3:
+        #         y_hat_k = y_hat_k.unsqueeze(1)
+        #     x = torch.cat([x[:, 1:, :], y_hat_k], dim=1)
+        #
+        # y_hat = torch.stack(y_hat_list, dim=1).squeeze()
+        # loss = F.mse_loss(y_hat, y)
+        # self.log(f"{string}_loss", loss)
+        # return loss
+
+        # LSTM lit module
         x, y = self.prep_data_for_step(batch)
         y_hat_list = []
         for k in range(self.future_sequence_length):
@@ -64,6 +80,9 @@ class LitModule(pl.LightningModule):
         self.log(f"{string}_loss", loss)
         return loss
 
+
+
+        # Constant velocity model lit module
         # x, y = self.prep_data_for_step(batch)
         # features = [1, 2, 4, 5]
         # x_features = x[:, :, features]
@@ -80,11 +99,26 @@ class LitModule(pl.LightningModule):
         # y_hat_compare = y_hat[:, :, 0:2]
         # loss = F.mse_loss(y_hat_compare, y_compare)
         # self.log(f"{string}_loss", loss)
-
+        #
         # return_dict = {"loss": loss, "y_predicted": y_hat, "y": y}
         #
         # return loss, return_dict
 
+        # LSTM lit module
+        # x, y = self.prep_data_for_step(batch)
+        #
+        # self.hidden = self.model.init_hidden(x.size(0))  # Initializing the hidden layer every step may not save the hidden values, we need to look into that.
+        #
+        # # Detach hidden state from previous sequence
+        # self.hidden = (self.hidden[0].detach(), self.hidden[1].detach())
+        #
+        # # print(x.shape, self.hidden[0].shape)
+        # output, self.hidden = self.model(x, self.hidden)
+        #
+        # loss = F.mse_loss(output, y)
+        #
+        # self.log("training_loss", loss)
+        # return loss
 
     def prep_data_for_step(self, batch):
         # TODO: This is a hacky way to load one rectangular block from the data, and divide it into x and y of different

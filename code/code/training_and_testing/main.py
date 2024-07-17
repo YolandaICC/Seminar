@@ -20,7 +20,7 @@ from callbacks import create_callbacks
 from lit_datamodule import inD_RecordingModule
 from lit_module import LitModule
 from utils import create_wandb_logger, get_data_path, build_module
-from nn_modules import ConstantVelocityModel, MultiLayerPerceptron, RecurrentNeuralNetwork, ConstantAccelerationModel
+from nn_modules import ConstantVelocityModel, MultiLayerPerceptron, LSTMModel, ConstantAccelerationModel
 from select_features import select_features
 
 ##################################################################
@@ -41,23 +41,24 @@ project_name = "SS2024_motion_prediction"
 #  The test stage should also be used for the final evaluation of any model.
 stage = "fit"
 # stage = "test"
-#################### Training Parameters #####################################
+###S################# Training Parameters #####################################
 # TODO: Change the recording_ID to the recordings you want to train on
 #recording_ID = ["01", "02"]#, "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31", "32"]
-recording_ID = ["00", "01"]
+recording_ID = ["00"]
 
 # TODO: Change the features to the features you want to use. The features are defined in the select_features.py file
 # This is referring to an unmodified dataset. So depending on your goal, modify the dataset and set the features accordingly.
 #  If you change your dataset, you have to change recreate a feature list that suits your dataset
 features_tracks, features_tracksmeta, number_of_features = select_features()
-past_sequence_length = 6
+past_sequence_length = 2
 future_sequence_length = 3
 sequence_length = past_sequence_length + future_sequence_length
 
 #################### Model Parameters #####################################
 
 batch_size = 50
-input_size = number_of_features * past_sequence_length
+# input_size = number_of_features * past_sequence_length
+input_size = number_of_features
 output_size = number_of_features
 hidden_size = 32
 
@@ -69,8 +70,8 @@ if __name__ == '__main__':
     #  defined as a class. The class should inherit from torch.nn.Module. Check out the MLPModel class in the nn_modules.py!
     # mdl = ConstantVelocityModel()
     # mdl = ConstantAccelerationModel()
-    mdl = MultiLayerPerceptron(input_size, hidden_size, output_size)
-    # mdl = RecurrentNeuralNetwork(input_size, hidden_size, output_size, batch_size)
+    # mdl = MultiLayerPerceptron(input_size, hidden_size, output_size)
+    mdl = LSTMModel(input_size, hidden_size, output_size, future_sequence_length=future_sequence_length)
     # hidden_tensor = mdl.init_zero_hidden(batch_size)
 
 
