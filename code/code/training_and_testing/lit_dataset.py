@@ -4,6 +4,7 @@ import torch
 from torch.utils.data import Dataset
 from torchvision import transforms
 from sklearn.preprocessing import LabelEncoder
+from sklearn.preprocessing import MinMaxScaler
 
 class inD_RecordingDataset(Dataset):
     def __init__(self, path, recording_id, sequence_length, features_tracks, features_tracksmeta,  train=True):
@@ -53,6 +54,11 @@ class inD_RecordingDataset(Dataset):
             # Left join with main table
             merged_data = tracks_data.merge(tracksMeta_data, on='trackId', how='left')
 
+            # Data Normalization
+            scaler = MinMaxScaler()
+            columns_to_normalize = merged_data.columns[1:8]
+            merged_data[columns_to_normalize] = scaler.fit_transform(merged_data[columns_to_normalize])
+
             self.data = merged_data[(merged_data["class"] == self.item_type)]
             encoded_values = list(le.classes_)
             actual_values = sorted(list(tracksMeta_data['class'].unique()))
@@ -78,6 +84,11 @@ class inD_RecordingDataset(Dataset):
                 tracksMeta_data['class'] = le.fit_transform(item_types)
                 # Left join with main table
                 merged_data = tracks_data.merge(tracksMeta_data, on='trackId', how='left')
+
+                # Data Normalization
+                scaler = MinMaxScaler()
+                columns_to_normalize = merged_data.columns[1:8]
+                merged_data[columns_to_normalize] = scaler.fit_transform(merged_data[columns_to_normalize])
 
                 self.data = merged_data[(merged_data["class"] == self.item_type)]
 
