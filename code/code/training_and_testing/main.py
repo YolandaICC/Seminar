@@ -20,8 +20,9 @@ from callbacks import create_callbacks
 from lit_datamodule import inD_RecordingModule
 from lit_module import LitModule
 from utils import create_wandb_logger, get_data_path, build_module
-from nn_modules import ConstantVelocityModel, MultiLayerPerceptron, LSTMModel, ConstantAccelerationModel
+from nn_modules import ConstantVelocityModel, MultiLayerPerceptron, LSTMModel, ConstantAccelerationModel, SingleTrackModel, HybridModel
 from select_features import select_features
+from enums.model import Model
 
 ##################################################################
 # torch.set_float32_matmul_precision('medium')
@@ -39,13 +40,17 @@ project_name = "SS2024_motion_prediction"
 # TODO: The stages are defined in the lit_datamodule.py file. Right now, we have a train, val, and test stage.
 #  For some of the models you dont actually train anything, like the constant velocity model, you can simply use the test stage.
 #  The test stage should also be used for the final evaluation of any model.
-stage = "fit"
-# stage = "test"
-###S################# Training Parameters #####################################
+# stage = "fit"
+stage = "test"
+###SSS################# Training Parameters #####################################
 # TODO: Change the recording_ID to the recordings you want to train on
 #recording_ID = ["01", "02"]#, "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31", "32"]
-recording_ID = ["00"]
-
+recording_ID = ["00", "01"]
+item_type = 1
+# 0: bicycle
+# 1: car
+# 2: pedestrian
+# 3: truck_bus
 # TODO: Change the features to the features you want to use. The features are defined in the select_features.py file
 # This is referring to an unmodified dataset. So depending on your goal, modify the dataset and set the features accordingly.
 #  If you change your dataset, you have to change recreate a feature list that suits your dataset
@@ -59,8 +64,8 @@ sequence_length = past_sequence_length + future_sequence_length
 batch_size = 50
 
 # Use first input_size for MLP and second input_size fo LSTM
-# input_size = number_of_features * past_sequence_length
-input_size = number_of_features
+# input_size = number_of_features * past_sequence_length # mlp
+input_size = number_of_features # LSTM
 output_size = number_of_features
 hidden_size = 32
 
@@ -70,11 +75,18 @@ if __name__ == '__main__':
     #  we simply load the MLP model. Depending on your research question, you have to change the model.
     # TODO: Create you models in the nn_modules.py file. You can create as many models as you want. The models should be
     #  defined as a class. The class should inherit from torch.nn.Module. Check out the MLPModel class in the nn_modules.py!
+
+    ##############################################################################################
+
+    # Physics-based models
     # mdl = ConstantVelocityModel()
     # mdl = ConstantAccelerationModel()
+    # mdl = SingleTrackModel()
+
+    # Data-driven models
     # mdl = MultiLayerPerceptron(input_size, hidden_size, output_size)
-    mdl = LSTMModel(input_size, hidden_size, output_size, future_sequence_length=future_sequence_length)
-    # hidden_tensor = mdl.init_zero_hidden(batch_size)
+    # mdl = LSTMModel(input_size, hidden_size, output_size, future_sequence_length=future_sequence_length)
+    mdl = HybridModel()
 
 
 
@@ -83,7 +95,7 @@ if __name__ == '__main__':
     #  The datamodule is defined in the kinematic_bicycle_datasetclass.py file
     #  The data set is defined in the lit_dataset.py file
     #  Check them out now!
-    dm = inD_RecordingModule(data_path, recording_ID, sequence_length, past_sequence_length, future_sequence_length, features_tracks, features_tracksmeta, batch_size=batch_size)
+    dm = inD_RecordingModule(data_path, recording_ID, sequence_length, past_sequence_length, future_sequence_length, item_type, features_tracks, features_tracksmeta, batch_size=batch_size)
 
 
 
@@ -91,7 +103,13 @@ if __name__ == '__main__':
     # TODO: Change the epochs to the number of epochs you want to train
     epochs = 10
     # model = LitModule(mdl, number_of_features, sequence_length, past_sequence_length, future_sequence_length, batch_size, hidden_tensor)
-    model = LitModule(mdl, number_of_features, sequence_length, past_sequence_length, future_sequence_length, batch_size)
+    model = LitModule(mdl,
+                      number_of_features,
+                      sequence_length,
+                      past_sequence_length,
+                      future_sequence_length,
+                      batch_size,
+                      Model.HYBRID.value)
 
     dm.setup(stage=stage)
 

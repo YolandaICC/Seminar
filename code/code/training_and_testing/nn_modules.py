@@ -45,24 +45,56 @@ class ConstantAccelerationModel(nn.Module):
         self.dt = dt
 
     def forward(self, x):
-        # Select the last tim step from the input sequence
+        # Select the last time step from the input sequence
         x_last = x[:, -1, :]  # shape: (batch_size, number_of_features)
 
-        x_center = x[:, 0]
-        y_center = x[:, 1]
-        x_vel = x[:, 2]
-        y_vel = x[:, 3]
-        # x_acc = x[:, 7]
-        # y_acc = x[:, 8]
+        # Extract features from the last time step
+        x_center = x_last[:, 0]  # xCenter
+        y_center = x_last[:, 1]  # yCenter
+        x_velocity = x_last[:, 2]  # xVelocity
+        y_velocity = x_last[:, 3]  # yVelocity
+        x_acceleration = x_last[:, 4]  # xAcceleration
+        y_acceleration = x_last[:, 5]  # yAcceleration
 
-        # old position + velocity * dt
-        new_x_center = x_center + self.dt * x_vel
-        new_y_center = y_center + self.dt * y_vel
-        new_positions = torch.stack((new_x_center, new_y_center, x_vel, y_vel),
-                                    dim=1)  # shape: (batch_size, 2)
+        # Calculate new positions based on constant acceleration model
+        new_x_center = x_center + x_velocity * self.dt + 0.5 * x_acceleration * self.dt ** 2
+        new_y_center = y_center + y_velocity * self.dt + 0.5 * y_acceleration * self.dt ** 2
 
-        # Replicate the new_positions to match the number of features
-        # new_positions = new_positions.unsqueeze(-1).expand(-1, -1, x.shape[-1])  # shape: (batch_size, 2, number_of_features)
+        # Create new positions tensor with the shape (batch_size, 2)
+        new_positions = torch.stack(
+            (new_x_center, new_y_center, x_velocity, y_velocity, x_acceleration, y_acceleration),
+            dim=1)  # shape: (batch_size, 6)
+
+        return new_positions
+
+
+class SingleTrackModel(nn.Module):
+    def __init__(self, dt=1.0):
+        super(SingleTrackModel, self).__init__()
+        self.dt = dt
+
+    def forward(self, x):
+        # Select the last time step from the input sequence
+        x_last = x[:, -1, :]  # shape: (batch_size, number_of_features)
+
+        # Extract features from the last time step
+        x_center = x_last[:, 0]  # xCenter
+        y_center = x_last[:, 1]  # yCenter
+        heading = x_last[:, 2]  # heading
+        x_velocity = x_last[:, 3]  # xVelocity
+        y_velocity = x_last[:, 4]  # yVelocity
+
+        # Calculate the change in position considering the heading
+        delta_x = (x_velocity * torch.cos(heading) - y_velocity * torch.sin(heading)) * self.dt
+        delta_y = (x_velocity * torch.sin(heading) + y_velocity * torch.cos(heading)) * self.dt
+
+        # For single track model, the new position is old position plus the calculated delta
+        new_x_center = x_center + delta_x
+        new_y_center = y_center + delta_y
+
+        # Create new positions tensor with the shape (batch_size, 2)
+        new_positions = torch.stack((new_x_center, new_y_center, heading, x_velocity, y_velocity),
+                                    dim=1)  # shape: (batch_size, 5)
 
         return new_positions
 
@@ -83,7 +115,7 @@ class MultiLayerPerceptron(nn.Module):
         batch_size = x.shape[0]
         x = x.flatten(start_dim=1)
         x = self.layers(x)
-
+        x = x.view(batch_size, -1, self.output_dim)
         return x
 
 
@@ -100,60 +132,33 @@ class LSTMModel(nn.Module):
         self.linear = nn.Linear(hidden_dim, output_dim)  # * future_sequence_length
 
     def forward(self, x):
-        # output, (h_n, c_n) = self.lstm(x)
+        output, (h_n, c_n) = self.lstm(x)
         # batch_size = x.shape[0]
         # x = x.flatten(start_dim=1)
         x, _ = self.lstm(x)
         x = self.linear(x)
-        # x = x.view(batch_size, -1, self.output_dim)
         tensor_reduced = x[:, 0, :]
         return tensor_reduced
 
-    # def init_hidden(self, batch_size):
-    #     weight = next(self.parameters())
-    #     hidden_tensor = (weight.new_zeros(self.num_layers, batch_size, self.hidden_size),
-    #                      weight.new_zeros(self.num_layers, batch_size, self.hidden_size))
-    #     return hidden_tensor
 
+class HybridModel(nn.Module):
+    def __init__(self, dt=1.0):
+        super(HybridModel, self).__init__()
+        self.dt = dt
 
-class RecurrentNeuralNetwork(nn.Module):
-    def __init__(self, input_size: int, hidden_size: int, output_size: int, batch_size) -> None:
-        """
-        input_size: Number of features of your input vector
-        hidden_size: Number of hidden neurons
-        output_size: Number of features of your output vector
-        """
-        super().__init__()
-        self.input_size = input_size
-        self.hidden_size = hidden_size
-        self.output_size = output_size
-        self.batch_size = batch_size
-        self.i2h = nn.Linear(input_size, hidden_size, bias=False)
-        self.h2h = nn.Linear(hidden_size, hidden_size)
-        self.h2o = nn.Linear(hidden_size, output_size)
+    def forward(self, x):
+        # Select the last tim step from the input sequence
+        x_last = x[:, -1, :]  # shape: (batch_size, number_of_features)
 
-    def forward(self, x, hidden_state) -> tuple[torch.Tensor, torch.Tensor]:
-        """
-        Returns computed output and tanh(i2h + h2h)
-        Inputs
-        ------
-        x: Input vector
-        hidden_state: Previous hidden state
-        Outputs
-        -------
-        out: Linear output (without activation because of how pytorch works)
-        hidden_state: New hidden state matrix
-        """
-        x = self.i2h(x)
-        hidden_state = self.h2h(hidden_state)
-        hidden_state = torch.tanh(x + hidden_state)
-        out = self.h2o(hidden_state)
-        return out, hidden_state
+        x_center = x_last[:, 0]
+        y_center = x_last[:, 1]
+        x_vel = x_last[:, 2]
+        y_vel = x_last[:, 3]
 
-    def init_zero_hidden(self, batch_size=1) -> torch.Tensor:
-        """
-		Helper function.
-        Returns a hidden state with specified batch size. Defaults to 1
-        """
-        return torch.zeros(batch_size, self.hidden_size, requires_grad=False)
+        # old position + velocity * dt
+        new_x_center = x_center + self.dt * x_vel
+        new_y_center = y_center + self.dt * y_vel
+        new_positions = torch.stack((new_x_center, new_y_center, x_vel, y_vel),
+                                    dim=1)  # shape: (batch_size, 2)
 
+        return new_positions

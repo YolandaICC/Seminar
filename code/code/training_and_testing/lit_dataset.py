@@ -7,7 +7,7 @@ from sklearn.preprocessing import LabelEncoder
 from sklearn.preprocessing import MinMaxScaler
 
 class inD_RecordingDataset(Dataset):
-    def __init__(self, path, recording_id, sequence_length, features_tracks, features_tracksmeta,  train=True):
+    def __init__(self, path, recording_id, sequence_length, item_type, features_tracks, features_tracksmeta,  train=True):
         """Dataset for inD dataset.
         Parameters
         ----------
@@ -28,7 +28,7 @@ class inD_RecordingDataset(Dataset):
         self.sequence_length = sequence_length
         self.features_tracks = features_tracks
         self.features_tracksmeta = features_tracksmeta
-        self.item_type = 1
+        self.item_type = item_type
         self.train = train
         self.transform = self.get_transform()
         if type(self.recording_id) == list:
@@ -58,7 +58,7 @@ class inD_RecordingDataset(Dataset):
             scaler = MinMaxScaler()
             columns_to_normalize = merged_data.columns[1:8]
             merged_data[columns_to_normalize] = scaler.fit_transform(merged_data[columns_to_normalize])
-
+            merged_data = merged_data.head(100)
             self.data = merged_data[(merged_data["class"] == self.item_type)]
             encoded_values = list(le.classes_)
             actual_values = sorted(list(tracksMeta_data['class'].unique()))
@@ -89,6 +89,7 @@ class inD_RecordingDataset(Dataset):
                 scaler = MinMaxScaler()
                 columns_to_normalize = merged_data.columns[1:8]
                 merged_data[columns_to_normalize] = scaler.fit_transform(merged_data[columns_to_normalize])
+                merged_data = merged_data.head(100)
 
                 self.data = merged_data[(merged_data["class"] == self.item_type)]
 
