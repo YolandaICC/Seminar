@@ -141,24 +141,68 @@ class LSTMModel(nn.Module):
         return tensor_reduced
 
 
-class HybridModel(nn.Module):
-    def __init__(self, dt=1.0):
-        super(HybridModel, self).__init__()
-        self.dt = dt
+class HybridParallelModel(nn.Module):
+    def __init__(self, lstm_input_dim, lstm_hidden_dim, lstm_output_dim):
+        super(HybridParallelModel, self).__init__()
+        self.single_track_model = SingleTrackModel(dt=1.0)
+        self.lstm_model = LSTMModel(lstm_input_dim, lstm_hidden_dim, lstm_output_dim)
+
+        # Assuming both models output the same dimensionality, otherwise adjust accordingly
+        combined_output_dim = lstm_output_dim + 5  # lstm_output_dim from LSTM + 5 from SingleTrackModel
+        self.fc_combined = nn.Linear(combined_output_dim, combined_output_dim)
+
+    def forward(self, x):
+        single_track_output = self.single_track_model(x)  # shape: (batch_size, 5)
+        lstm_output = self.lstm_model(x)  # shape: (batch_size, lstm_output_dim)
+
+        combined_output = torch.cat((single_track_output, lstm_output),
+                                    dim=1)  # shape: (batch_size, combined_output_dim)
+        final_output = self.fc_combined(combined_output)  # shape: (batch_size, combined_output_dim)
+
+        return final_output
+
+class HybridSerialModel(nn.Module):
+
+    def __init__(self, input_dim, hidden_dim, output_dim, num_layers=1, future_sequence_length=1):
+        super(HybridSerialModel, self).__init__()
+        self.dt = 1.0
+        self.input_dim = input_dim
+        self.hidden_dim = hidden_dim
+        self.output_dim = output_dim
+        self.lstm = nn.LSTM(9, hidden_dim, num_layers=1)
+        self.linear = nn.Linear(hidden_dim, 1)
 
     def forward(self, x):
         # Select the last tim step from the input sequence
         x_last = x[:, -1, :]  # shape: (batch_size, number_of_features)
 
-        x_center = x_last[:, 0]
-        y_center = x_last[:, 1]
-        x_vel = x_last[:, 2]
-        y_vel = x_last[:, 3]
+        trackId = x_last[:, 0]
+        x_center = x_last[:, 1]
+        y_center = x_last[:, 2]
+        heading = x_last[:, 6]
+        x_vel = x_last[:, 4]
+        y_vel = x_last[:, 5]
+        x_acceleration = x_last[:, 6]  # xAcceleration
+        y_acceleration = x_last[:, 7]  # yAcceleration
+        item_type = x_last[:, 8]  # yAcceleration
 
         # old position + velocity * dt
         new_x_center = x_center + self.dt * x_vel
         new_y_center = y_center + self.dt * y_vel
-        new_positions = torch.stack((new_x_center, new_y_center, x_vel, y_vel),
+        new_positions = torch.stack((trackId, new_x_center, new_y_center, heading, x_vel, y_vel, x_acceleration, y_acceleration,item_type),
                                     dim=1)  # shape: (batch_size, 2)
+        if new_positions.dim() < 3:
+            new_positions = new_positions.unsqueeze(1)
 
-        return new_positions
+
+        output, (h_n, c_n) = self.lstm(new_positions)
+        # batch_size = x.shape[0]
+        # x = x.flatten(start_dim=1)
+        x, _ = self.lstm(new_positions)
+        x = self.linear(x)
+        # tensor_reduced = new_positions[:, 0, :]
+
+
+        #
+
+        return new_positions #  {50,9}
